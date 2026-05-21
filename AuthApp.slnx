@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="authapp.client/authapp.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="AuthApp.Server/AuthApp.Server.csproj" />
+</Solution>

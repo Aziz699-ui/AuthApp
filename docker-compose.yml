@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_container
+    environment:
+      SA_PASSWORD: "Stro!wn1gPas23s123#$!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "14330:1433"
+    volumes:
+      - mssql_data:/var/opt/mssql
+
+  api:
+    build:
+      context: ./AuthApp.Server
+    container_name: api_container
+    ports:
+      - "7260:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+      ConnectionStrings__DefaultConnection: "Server=db;Database=AuthDb;User Id=sa;Password=Stro!wn1gPas23s123#$!;TrustServerCertificate=True;"
+    depends_on:
+      - db
+    restart: always
+
+  client:
+    build:
+      context: ./authapp.client
+    container_name: react_container
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+    restart: always
+
+volumes:
+  mssql_data:
