@@ -34,7 +34,7 @@ jobs:
         with:
           context: ./AuthApp.Server
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}authapp-api:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/authapp-api:latest
 
       # =========================
       # CLIENT IMAGE
@@ -45,4 +45,4 @@ jobs:
         with:
           context: ./authapp.client
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}authapp-client:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/authapp-client:latest
