@@ -1,0 +1,48 @@
+name: Build and Push Docker Images
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # =========================
+      # API IMAGE
+      # =========================
+
+      - name: Build and Push API image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./AuthApp.Server
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}authapp-api:latest
+
+      # =========================
+      # CLIENT IMAGE
+      # =========================
+
+      - name: Build and Push Client image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./authapp.client
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}authapp-client:latest
